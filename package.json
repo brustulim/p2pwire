@@ -1,0 +1,33 @@
+{
+  "name": "bitnet",
+  "version": "1.0.0",
+  "description": "A webbrowser anonym and decentralized network",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "watchify index.js -d -o bundle.js -v",
+    "build": "browserify --standalone TorrentWeb index.js | minify --mangle=false > torrentweb.min.js",
+    "build-debug": "browserify --standalone TorrentWeb . > torrentweb.debug.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brustulim/bitnet.git"
+  },
+  "keywords": [
+    "decentralization",
+    "javascript",
+    "webtorrent",
+    "crypto"
+  ],
+  "author": "Herminio Brustulim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brustulim/bitnet/issues"
+  },
+  "homepage": "https://github.com/brustulim/bitnet#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-minify": "^0.5.1",
+    "browserfy": "^1.0.0"
+  }
+}

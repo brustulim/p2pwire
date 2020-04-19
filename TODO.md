@@ -2,9 +2,9 @@
 
 ## proximos passos
 
-- [ ] Criar um boilerplate que possa ser aberto no browser, tenha a lib em um pasta e já use o browsefy para consumi-la.
-- [ ] Gerar um torrent que será o endereço central da rede... que será usado para que os peers se encontrem. estudar forma de gerá-lo com um prefixo: https://www.gkbrk.com/2018/04/generating-vanity-infohashes-for-torrents/
+- [ ] Criar um boilerplate que possa ser aberto no browser, tenha a lib em um pasta e já use o browserify para consumi-la.
 - [ ] Implementar o DHT para encontrar outros peers da bitnet
+- [ ] Gerar um torrent que será o endereço central da rede... que será usado para que os peers se encontrem. estudar forma de gerá-lo com um prefixo: https://www.gkbrk.com/2018/04/generating-vanity-infohashes-for-torrents/
 - [ ] Implementar o const bitnet = Bitnet(), que automaticamente procura outros peers
 - [ ] Implementar o generatePacket() para gerar um pacote de comunicação no padrão da bitnet
 - [ ] Implementar a infraestrutura basica para enviar e receber um pacote
