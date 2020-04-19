@@ -1,2 +1,4 @@
-# bitnet
-WIP - A decentralized, anonymous network entirely developed in Javascript that runs direct in browser (no installation required)
+# TorrentWeb
+
+## WIP - An anonymous and decentralized network running direct in your browser 
+YES! no installation, no plugins, no manual operations... just enter the address in your browser and navaigate!
