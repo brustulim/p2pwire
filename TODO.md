@@ -66,14 +66,14 @@ Modelo dos dados trocados entre os nodes:
     peerAddress: '123.123.123.123',
     peerPort: 8882,
     peerId: 'abc_peer_A_address_public_key',
-    nextPeer: 'encripted data with the all next jumps to the destination' // mesma estrutura com o proximo salto e mais um nextPeer encriptado com a chave 'abc_peer_A_address_public_key'... ele consegue saber o proximo node, mas não o outro
+    nextPeer: 'encripted data with the all next jumps to the destination', // mesma estrutura com o proximo salto e mais um nextPeer encriptado com a chave 'abc_peer_A_address_public_key'... ele consegue saber o proximo node, mas não o outro
     nextPeerExemploDecriptado: {
         peerAddress: '222.123.123.212',
         peerPort: 12000,
         peerId: 'xyz_peer_B_address_public_key',
         nextPeer: 'encripted data with the all next jumps to the destination' // mesma estrutura com o proximo salto e mais um nextPeer encriptado.
-    }
-    message: 'encripted data' //contem os dados enviados, caso seja 
+    },
+    message: 'encripted data', //contem os dados enviados, caso seja 
     messageExemploDecriptado: {
         backRoute: {
             peerAddress: '211.212.112.112',
@@ -81,7 +81,7 @@ Modelo dos dados trocados entre os nodes:
             peerId: 'vbn_peer_C_address_public_key',
             nextPeer: 'encripted data with the all next jumps to return to the source' // Caminho de retorno dos dados solicitados.
         },
-        message
+        data: 'the content itself... the value sent from originator'
     }
 }
 ```
