@@ -1,18 +1,10 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.TorrentWeb = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (Buffer){
-"use strict";
-
-var _conn = _interopRequireDefault(require("./conn"));
+'use strict';
 
 var _util = require("./util");
 
 var _events = require("events");
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -143,11 +135,12 @@ var Club = /*#__PURE__*/function (_EventEmitter) {
 
     _this = _super.call(this);
     _this.address = address;
-    _this.nick = nick ? nick : address;
+    _this.nick = nick || address;
     _this.conn = conn;
     _this.debugPrefix = "club -> ".concat(_this.nick, ": ");
-    (0, _util.showDebug)(_this.debugPrefix, "conn.announceServers:", conn.announceServers);
-    var buffer = new Buffer.from(_this.address);
+    (0, _util.showDebug)(_this.debugPrefix, 'conn.announceServers:', conn.announceServers); // const buffer = new Buffer.from(this.address)
+
+    var buffer = Buffer.from(_this.address);
     buffer.name = _this.address;
     var torrentOpts = {
       name: _this.address,
@@ -166,51 +159,51 @@ var Club = /*#__PURE__*/function (_EventEmitter) {
     value: function onTorrent(torrent) {
       var _this2 = this;
 
-      (0, _util.showDebug)(this.debugPrefix, "torrent name:", torrent.name);
-      (0, _util.showDebug)(this.debugPrefix, "torrent infoHash:", torrent.infoHash);
+      (0, _util.showDebug)(this.debugPrefix, 'torrent name:', torrent.name);
+      (0, _util.showDebug)(this.debugPrefix, 'torrent infoHash:', torrent.infoHash);
       (0, _util.showDebug)(this.debugPrefix, "address: ".concat(this.address));
-      torrent.on("wire", function (wire, addr) {
+      torrent.on('wire', function (wire, addr) {
         return _this2.onWireOpen(wire, addr);
       });
-      torrent.on("error", function (error) {
+      torrent.on('error', function (error) {
         return _this2.onError(error);
       });
-      torrent.on("done", function () {
+      torrent.on('done', function () {
         return _this2.onDone();
       });
-      torrent.on("trackerUpdate", function (update) {
+      torrent.on('trackerUpdate', function (update) {
         return _this2.onTrackerUpdate(update);
       });
-      torrent.on("trackerAnnounce", function (announce) {
+      torrent.on('trackerAnnounce', function (announce) {
         return _this2.onTrackerAnnounce(announce);
       });
-      torrent.discovery.on("trackerAnnounce", function (announce) {
-        (0, _util.showDebug)(_this2.debugPrefix, "discovery.on(trackerAnnounce)", announce);
+      torrent.discovery.on('trackerAnnounce', function (announce) {
+        (0, _util.showDebug)(_this2.debugPrefix, 'discovery.on(trackerAnnounce)', announce);
       });
 
       if (torrent.discovery.tracker) {
-        (0, _util.showDebug)(this.debugPrefix, "discovery.tracker : TRUE");
-        torrent.discovery.tracker.on("update", function (update) {
-          (0, _util.showDebug)(_this2.debugPrefix, "discovery.tracker.on(update):", update);
+        (0, _util.showDebug)(this.debugPrefix, 'discovery.tracker : TRUE');
+        torrent.discovery.tracker.on('update', function (update) {
+          (0, _util.showDebug)(_this2.debugPrefix, 'discovery.tracker.on(update):', update);
         });
       } else {
-        (0, _util.showDebug)(this.debugPrefix, "discovery.tracker : FALSE");
+        (0, _util.showDebug)(this.debugPrefix, 'discovery.tracker : FALSE');
       }
 
-      torrent.on("metadata", function (value) {
-        console.log("metadata");
+      torrent.on('metadata', function (value) {
+        console.log('metadata');
         console.log(value);
       });
     }
   }, {
     key: "onError",
     value: function onError(error) {
-      (0, _util.showDebug)(this.debugPrefix, "onError:", error);
+      (0, _util.showDebug)(this.debugPrefix, 'onError:', error);
     }
   }, {
     key: "onDone",
     value: function onDone() {
-      (0, _util.showDebug)(this.debugPrefix, "onDone");
+      (0, _util.showDebug)(this.debugPrefix, 'onDone');
     }
   }, {
     key: "onWireOpen",
@@ -218,33 +211,33 @@ var Club = /*#__PURE__*/function (_EventEmitter) {
       var _this3 = this; // showDebug( this.debugPrefix, `onWire addr:`, wire.remoteAddress );
 
 
-      (0, _util.showDebug)(this.debugPrefix, "onWire addr:", addr);
-      (0, _util.showDebug)(this.debugPrefix, "onWire peerId:", wire.peerId);
-      (0, _util.showDebug)(this.debugPrefix, "onWire wire:", wire); // TODO: emitir evento wire connectado / salvar na lista de peers
+      (0, _util.showDebug)(this.debugPrefix, 'onWire addr:', addr);
+      (0, _util.showDebug)(this.debugPrefix, 'onWire peerId:', wire.peerId);
+      (0, _util.showDebug)(this.debugPrefix, 'onWire wire:', wire); // TODO: emitir evento wire connectado / salvar na lista de peers
 
-      wire.on("handshake", function (infoHash, peerId, extensions) {
-        console.log("Club -> onWireOpen -> handshake extensions", extensions);
-        console.log("Club -> onWireOpen -> handshake peerId", peerId);
-        console.log("Club -> onWireOpen -> handshake infoHash", infoHash);
+      wire.on('handshake', function (infoHash, peerId, extensions) {
+        console.log('Club -> onWireOpen -> handshake extensions', extensions);
+        console.log('Club -> onWireOpen -> handshake peerId', peerId);
+        console.log('Club -> onWireOpen -> handshake infoHash', infoHash);
       });
-      wire.on("close", function (wire) {
+      wire.on('close', function (wire) {
         return _this3.onWireClose(wire);
       });
     }
   }, {
     key: "onWireClose",
     value: function onWireClose(wire) {
-      (0, _util.showDebug)(this.debugPrefix, "onWireClose wire:", wire); // TODO: emitir evento - tirar peer da lista
+      (0, _util.showDebug)(this.debugPrefix, 'onWireClose wire:', wire); // TODO: emitir evento - tirar peer da lista
     }
   }, {
     key: "onTrackerUpdate",
     value: function onTrackerUpdate(update) {
-      (0, _util.showDebug)(this.debugPrefix, "onTrackerUpdate:", update);
+      (0, _util.showDebug)(this.debugPrefix, 'onTrackerUpdate:', update);
     }
   }, {
     key: "onTrackerAnnounce",
     value: function onTrackerAnnounce(announce) {
-      (0, _util.showDebug)(this.debugPrefix, "onTrackerAnnounce:", announce); // update statistics
+      (0, _util.showDebug)(this.debugPrefix, 'onTrackerAnnounce:', announce); // update statistics
     }
   }]);
 
@@ -254,9 +247,9 @@ var Club = /*#__PURE__*/function (_EventEmitter) {
 module.exports = Club;
 
 }).call(this,require("buffer").Buffer)
-},{"./conn":2,"./util":4,"buffer":29,"events":39}],2:[function(require,module,exports){
+},{"./util":4,"buffer":29,"events":39}],2:[function(require,module,exports){
 (function (Buffer){
-"use strict";
+'use strict';
 
 var _webtorrent = _interopRequireDefault(require("webtorrent"));
 
@@ -404,20 +397,20 @@ var Conn = /*#__PURE__*/function (_EventEmitter) {
     _classCallCheck(this, Conn);
 
     _this = _super.call(this);
-    _this.announceServers = opts.announceServers || ["wss://tracker.openwebtorrent.com", "wss://tracker.btorrent.xyz/"];
-    _this.debugPrefix = "conn";
+    _this.announceServers = opts.announceServers || ['wss://tracker.openwebtorrent.com', 'wss://tracker.btorrent.xyz/'];
+    _this.debugPrefix = 'conn';
     _this.keyPair = _tweetnacl.box.keyPair();
     _this.address = (0, _bs58check.encode)(Buffer.from(_this.keyPair.publicKey));
-    (0, _util.showDebug)(_this.debugPrefix, "address:", _this.address);
-    (0, _util.showDebug)(_this.debugPrefix, "keyPair:", _this.keyPair);
-    _this.masterAddress = "lolo xibiu sabugão";
-    (0, _util.showDebug)(_this.debugPrefix, "masterAddress:", _this.masterAddress);
+    (0, _util.showDebug)(_this.debugPrefix, 'address:', _this.address);
+    (0, _util.showDebug)(_this.debugPrefix, 'keyPair:', _this.keyPair);
+    _this.masterAddress = 'lolo xibiu sabugão';
+    (0, _util.showDebug)(_this.debugPrefix, 'masterAddress:', _this.masterAddress);
     _this.webTorrent = opts.webTorrent || new _webtorrent["default"]({
       peerId: _this.keyPair.publicKey
-    }); //{ peerId: this.keyPair.publicKey });
+    }); // { peerId: this.keyPair.publicKey });
 
-    _this.webTorrent.on("error", function (error) {
-      (0, _util.showDebug)(_this.debugPrefix, "WebTorrent ERROR:", error);
+    _this.webTorrent.on('error', function (error) {
+      (0, _util.showDebug)(_this.debugPrefix, 'WebTorrent ERROR:', error);
     });
 
     return _this;
@@ -426,7 +419,7 @@ var Conn = /*#__PURE__*/function (_EventEmitter) {
   _createClass(Conn, [{
     key: "start",
     value: function start() {
-      this.masterClub = new _club["default"](this, this.masterAddress, "Master Club");
+      this.masterClub = new _club["default"](this, this.masterAddress, 'Master Club');
     }
   }]);
 
@@ -437,7 +430,7 @@ module.exports = Conn;
 
 }).call(this,require("buffer").Buffer)
 },{"./club":1,"./util":4,"bs58check":25,"buffer":29,"events":39,"tweetnacl":148,"webtorrent":159}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var _events = require("events");
 
@@ -589,6 +582,7 @@ var TorrentWeb = /*#__PURE__*/function (_EventEmitter) {
     _this.running = true;
     (0, _util.showDebug)(_this.debugPrefix, 'TorrentWeb started!');
     var club = new _club["default"](_this.conn, 'club louco', 'doido', {});
+    console.log('TorrentWeb -> constructor -> club', club);
     return _this;
   }
 
@@ -620,7 +614,6 @@ function showDebug() {
   }
 }
 
-;
 module.exports = {
   showDebug: showDebug
 };
