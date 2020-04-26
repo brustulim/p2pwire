@@ -5,6 +5,8 @@
       h1, p, div { text-align: center; }
       html       { background: #fffffe; }
     </style>
+    <script src="bundle.js" type="application/javascript"></script>
+  </head>
   </head>
   <body>
     <div class="container">
@@ -17,7 +19,14 @@
         </div>
       </div>
     </div>
-    <script src="index.js"></script>
-    <script src="bundle.js"></script>
+    <script>
+
+      var torrentWeb = new TorrentWeb({ debugMode: true });
+      var result =  torrentWeb.calc(2,5);
+      
+           // $response.innerHTML = `The result is: ${result}`;
+          </script>
+      
   </body>
-</html>
+
+  </html>
