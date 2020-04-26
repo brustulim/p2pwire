@@ -3,17 +3,30 @@
 ## WIP - An anonymous and decentralized network running directly in your browser 
 YES! no installation, no plugins, no manual operations... just enter an address in your browser and navaigate!
 
+## milestones
+
+- implementar a descoberta de outros nodes via tracker (DHT não é possível em webrtc)
+
+- implementar a comunicação entre nodes através de packets criptografados
+
+- implementar uma forma de dht 
+    - por enquanto os nodos terão acesso direto aos demais, através de um torrent em comum
+    - por enquanto, os materiais compartilhados (sites, arquivos, serviços) serão encontrados via tracker, mas deverá mudar para encontrar via DHT
+    - quanfo tivermos um dht, podemos ter um modo misto, onde recursos (nodes e materiais) podem ser encontrados tanto via tracker quando dht... tracker é mais rápido, mas DHT garante o funcionamento mesmo se nenhum tracker estiver disponível
+
 
 ## proximos passos
 
-- [ ] Criar um boilerplate que possa ser aberto no browser, tenha a lib em um pasta e já use o browserify para consumi-la.
-- [ ] Implementar o DHT para encontrar outros peers da bitnet
-- [ ] Gerar um torrent que será o endereço central da rede... que será usado para que os peers se encontrem. estudar forma de gerá-lo com um prefixo: https://www.gkbrk.com/2018/04/generating-vanity-infohashes-for-torrents/
+- [X] Criar um boilerplate que possa ser aberto no browser, tenha a lib em um pasta e já use o browserify para consumi-la.
 - [ ] Implementar o const bitnet = Bitnet(), que automaticamente procura outros peers
+- [ ] Implementar o uso de ES6 e standardJS
 - [ ] Implementar o generatePacket() para gerar um pacote de comunicação no padrão da bitnet
 - [ ] Implementar a infraestrutura basica para enviar e receber um pacote
-- [ ] Implementar a validação dos pacotes recebidos
+- [ ] Implementar a geração de chaves com um prefixo - isso dificultará a geração de endereços em lote (tipo de proof of work básico) 
+- [ ] Implementar a validação dos pacotes recebidos via chave do remetente e chave propria, só aceitar chamadas de endereços com prefixo da rede.
+- [ ] Gerar um torrent que será o endereço central da rede... que será usado para que os peers se encontrem. estudar forma de gerá-lo com um prefixo: https://www.gkbrk.com/2018/04/generating-vanity-infohashes-for-torrents/
 
+- NNN Implementar o DHT para encontrar outros peers da torrentWeb (DHT não funciona no browser!)
 
 ## Como provavelmente funcionará? (ideias, brainstorm)
 
@@ -32,10 +45,13 @@ YES! no installation, no plugins, no manual operations... just enter an address 
 - Quando um peer recebe um pacote, ele checa se o proximo peer está respondendo e então aceita a conexão... senão informa que o caminho foi quebrado. Uma vez conectado ao próximo ele conecta um stream entre os dois, permitindo os dados fluirem. 
 
 - Deve ter um gerador de "endereços", ou seja, gerador de keypair (nacl, provavelmente), já que a chave publica será usada como endereço. Pesquisar se existe uma forma de criar um keypair onde a publica tenha um prefixo, como bn01, bn02, onde bn01 seriam peers, bn02 sites, bn03 caminhos... (pensar melhor)
-  Poderiamos usar força bruta, já que o nacl é bem rápido... e isso ainda serviria como proof of work, limitando a criação de sites e peers em lotes gigantes...
+    - Poderiamos usar força bruta, já que o nacl é bem rápido... e isso ainda serviria como proof of work, limitando a criação de sites e peers em lotes gigantes...
+    - Um recurso precisa ter o endereço/chave com prefixo, porem os filhos não.
 
 - Existirá um endereço central... um torrent... que será a forma dos peers se encontrarem, buscando em trackers, magnet link ou DHT... ou seja... nodos que tem esse torrent provavelemente estão na bitnet.
 
+- Cada endereço é um "grupo" através do qual, via tracker ou DHT você consegue saber quem mais tem esse conteúdo.
+    - O masterAddress é um grupo tbém, onde encontrando alguem que o tenha, vc entra na rede e acha qq coisa
 
 ## Requisitos:
 
@@ -89,3 +105,8 @@ Modelo dos dados trocados entre os nodes:
     }
 }
 ```
+
+## Used packages - thanks
+Some are not entirely used, but some parts, ideas, study material, etc.
+- https://github.com/thoughtram/es6-babel-browserify-boilerplate
+
