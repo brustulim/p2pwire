@@ -1,13 +1,12 @@
 {
-  "name": "bitnet",
+  "name": "torrentweb",
   "version": "1.0.0",
   "description": "A webbrowser anonym and decentralized network",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "browserify --standalone TorrentWeb index.js > bundle.js",
-    "build": "browserify --standalone TorrentWeb index.js | minify --mangle=false > torrentweb.min.js",
-    "build-debug": "browserify --standalone TorrentWeb . > torrentweb.debug.js"
+    "test": "standard",
+    "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
+    "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js"
   },
   "repository": {
     "type": "git",
@@ -33,13 +32,24 @@
     "webtorrent": "^0.108.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "babel-eslint": "^10.1.0",
     "babel-minify": "^0.5.1",
-    "browserfy": "^1.0.0",
-    "standard": "^14.3.3"
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.1",
+    "eslint-plugin-html": "^6.0.2",
+    "standard": "*"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   },
   "standard": {
-    "plugins": ["html"],
+    "plugins": [
+      "html"
+    ],
     "parser": "babel-eslint"
   }
-
 }
