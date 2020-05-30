@@ -6,7 +6,8 @@
   "scripts": {
     "test": "standard",
     "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
-    "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js"
+    "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js",
+    "node-start": "nodemon --exec babel-node ./node/client.js"
   },
   "repository": {
     "type": "git",
@@ -25,20 +26,30 @@
   },
   "homepage": "https://github.com/brustulim/bitnet#readme",
   "dependencies": {
+    "bittorrent-tracker": "^9.15.0",
     "bs58check": "^2.1.2",
+    "chrome-launcher": "^0.13.2",
     "ripemd160": "^2.0.2",
+    "simple-peer": "^9.7.2",
     "torrent-discovery": "^9.2.1",
     "tweetnacl": "^1.0.3",
-    "webtorrent": "^0.108.1"
+    "webtorrent": "^0.108.1",
+    "wrtc": "^0.4.5"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.9.5",
+    "@babel/core": "^7.10.1",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
     "@babel/preset-react": "^7.9.4",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
     "babel-minify": "^0.5.1",
     "babelify": "^10.0.0",
     "browserify": "^16.5.1",
+    "chrome-remote-interface": "^0.28.2",
     "eslint-plugin-html": "^6.0.2",
+    "nodemon": "^2.0.4",
     "standard": "*"
   },
   "browserify": {
