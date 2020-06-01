@@ -1,14 +1,13 @@
 {
   "name": "torrentweb",
   "version": "1.0.0",
-  "description": "A webrowser anonym and decentralized network",
+  "description": "A webbrowser anonym and decentralized network",
   "main": "index.html",
   "scripts": {
     "test": "standard",
     "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
     "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js",
-    "node-start_old": "nodemon --exec babel-node ./console/client.js",
-    "node-start": "node --exec babel-node ./console/client.js"
+    "node-start": "nodemon --exec babel-node ./node/client.js"
   },
   "repository": {
     "type": "git",
