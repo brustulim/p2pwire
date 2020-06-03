@@ -11,7 +11,7 @@
    <script src="./torrentweb.debug.js"></script>
    <div class="container">
       <h2>Welcome to the TorrentWeb network</h2>
-         <p align='right'>I know a guy that knows a guy...</p>
+         <p align='right'>I know a guy, who knows a guy...</p>
 
       <div class="well">
          <br>
@@ -35,7 +35,14 @@
       })
       
       torrentWeb.on('nodeUpdate', (nodes) => showNodes(nodes))
+      torrentWeb.on('message', (remoteNodeAddress, message) => log('message from - <B>' + remoteNodeAddress+'</B>: <br>' + JSON.stringify(message,null,2)))
       
+      function sendMessage(nodeAddress, message) {
+         var dt = new Date();
+         const msg = {title: "Ping message", from: torrentWeb.nodeAddress, dt}
+         torrentWeb.sendMessage(nodeAddress, msg)
+      } 
+
       function showNodes (nodesMap) {
        const nodes = Array.from(nodesMap)
        console.log(`showNodes -> nodes`, nodes)
@@ -50,6 +57,7 @@
           <th scope="row">${addr}</th>
           <td>${details.peerConn.channelName}</td>
           <td>${details.t}</td>
+          <td><a href="javascript:void(0);" onclick="sendMessage('${addr}');"> send ping </a></td>
           </tr>`
        })
       
@@ -59,6 +67,7 @@
         <th scope="col">Address</th>
         <th scope="col">Channel</th>
         <th scope="col">Time</th>
+        <th scope="col">Ping</th>
         </tr>
         </thead>
         <tbody>` + tableRows +
