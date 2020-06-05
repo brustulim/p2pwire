@@ -2,20 +2,49 @@
    <title>torrentweb - an anonymous and decentralized network</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <style>
-      h1, p, div { text-align: center; }
-      html       { background: #fffffe; }
+      h1,
+      p,
+      div {
+         text-align: center;
+      }
+
+      html {
+         background: #fffffe;
+      }
+
+      .row {
+         display: flex;
+      }
+
+      .column {
+         flex: 50%;
+         margin: 1rem;
+         vertical-align: middle;
+         background-color:#798ca0;
+      }
    </style>
 </head>
 </head>
+
 <body>
    <script src="./torrentweb.debug.js"></script>
+   <script type="text/javascript" src="./p2p-graph.min.js"></script>
+
    <div class="container">
       <h2>Welcome to the TorrentWeb network</h2>
-         <p align='right'>I know a guy, who knows a guy...</p>
+      <p align='right'>I know a guy, who knows a guy...</p>
 
       <div class="well">
+         <div class="row">
+            <div class="column">
+               <div class="myAddress"></div>
+            </div>
+            <div class="column">
+               <div class="torrent-graph"></div>
+            </div>
+         </div>
          <br>
-         <div class="myAddress"></div>
+
          <div id="response">
          </div>
          <br>
@@ -27,41 +56,78 @@
       </div>
    </div>
    <script>
+      var nodes = new Map()
+
       var torrentWeb = new TorrentWeb({ debugMode: true })
-     
+
+      let graph = new window.P2PGraph('.torrent-graph')
+
       torrentWeb.on('created', (nodeAddress) => {
-        document.querySelector('.myAddress').innerHTML = '<h3>My address: <h2>' + nodeAddress + '</h2></h3>'
-        log('Created - Node Address: ' + nodeAddress)
+         document.querySelector('.myAddress').innerHTML = '<h3>My address: <h2>' + nodeAddress + '</h2></h3>'
+         log('Created - Node Address: ' + nodeAddress)
+         graph.add({
+            id: 'You',
+            me: true,
+            name: nodeAddress
+         })
       })
-      
-      torrentWeb.on('nodeUpdate', (nodes) => showNodes(nodes))
-      torrentWeb.on('message', (remoteNodeAddress, message) => log('message from - <B>' + remoteNodeAddress+'</B>: <br>' + JSON.stringify(message,null,2)))
-      
+
+      // torrentWeb.on('nodeUpdate', (nodes) => showNodes(nodes))
+      torrentWeb.on('nodeConnected', (nodeAddress, nodeData) => {
+         nodes.set(nodeAddress, nodeData)
+         showNodes(nodes)
+
+         graph.add({
+            id: nodeAddress,
+            me: false,
+            name: nodeAddress
+         })
+         graph.connect('You', nodeAddress)
+
+      })
+      torrentWeb.on('nodeDisconnected', (nodeAddress) => {
+         // nodes = arrayRemove(nodes, nodeAddress);
+         nodes.delete(nodeAddress)
+         showNodes(nodes)
+
+         graph.disconnect('You', nodeAddress)
+         graph.remove(nodeAddress)
+      })
+
+      torrentWeb.on('message', (remoteNodeAddress, message) => {
+         graph.seed(remoteNodeAddress, true)
+         setTimeout(() => {
+            graph.seed(remoteNodeAddress, false)
+         }, 3000)
+
+         log('message from - <B>' + remoteNodeAddress + '</B>: <br>' + JSON.stringify(message, null, 2))
+      })
+
       function sendMessage(nodeAddress, message) {
          var dt = new Date();
-         const msg = {title: "Ping message", from: torrentWeb.nodeAddress, dt}
+         const msg = { title: "Ping message", from: torrentWeb.nodeAddress, dt }
          torrentWeb.sendMessage(nodeAddress, msg)
-      } 
+      }
 
-      function showNodes (nodesMap) {
-       const nodes = Array.from(nodesMap)
-       console.log(`showNodes -> nodes`, nodes)
-      
-        var tableRows = ''
+      function showNodes(nodesMap) {
+         const nodes = Array.from(nodesMap)
+         console.log(`showNodes -> nodes`, nodes)
 
-        nodes.map(node => {
-          const addr = node[0]
-          const details = node[1]
-          tableRows += `
+         var tableRows = ''
+
+         nodes.map(node => {
+            const addr = node[0]
+            const details = node[1]
+            tableRows += `
           <tr>
           <th scope="row">${addr}</th>
-          <td>${details.peerConn.channelName}</td>
-          <td>${details.t}</td>
+          <td>${details.channelName}</td>
+          <td>${Date.now().toString()}</td>
           <td><a href="javascript:void(0);" onclick="sendMessage('${addr}');"> send ping </a></td>
           </tr>`
-       })
-      
-        const table = `<table class="table table-dark">
+         })
+
+         const table = `<table class="table table-dark">
         <thead>
         <tr>
         <th scope="col">Address</th>
@@ -71,18 +137,23 @@
         </tr>
         </thead>
         <tbody>` + tableRows +
-        `</tbody>
+            `</tbody>
         </table>`
-      
-        document.querySelector('.nodesTable').innerHTML = table 
+
+         document.querySelector('.nodesTable').innerHTML = table
       }
-      
-      function log (str) {
-        var p = document.createElement('p')
-        p.innerHTML = str
-        document.querySelector('.log').appendChild(p)
+
+      function arrayRemove(arr, value) {
+         return arr.filter(ele => { return ele != value })
       }
-          
+
+      function log(str) {
+         var p = document.createElement('p')
+         p.innerHTML = str
+         document.querySelector('.log').appendChild(p)
+      }
+
    </script>
 </body>
+
 </html>

@@ -151,18 +151,17 @@ var ConnectionManager = /*#__PURE__*/function (_EventEmitter) {
 
       peerConn.on('disconnected', function (peerConn) {
         return _this2._removeNode(peerConn);
-      }); // peerConn.on("data", (message) => this._processReceivedMessage(message));
-
+      });
       peerConn.on('receiveMessage', function (remoteNodeAddress, message) {
         console.log('CONNECTION_MANAGER -> receiveMessage -> message', remoteNodeAddress, message);
 
         _this2.emit('receiveMessage', remoteNodeAddress, message);
-      }); //       this.emit('receiveMessage', msg.m)
-
+      });
       this.nodes.set(address, {
         peerConn: peerConn,
         t: Date.now()
       });
+      this.emit('nodeConnected', address, peerConn.basicData);
 
       this._emitNodeUpdate();
     }
@@ -205,26 +204,7 @@ var ConnectionManager = /*#__PURE__*/function (_EventEmitter) {
       }
 
       return node.peerConn;
-    } // _processReceivedMessage (message) {
-    //   try {
-    //     const msg = JSON.parse(message.toString())
-    //     console.log('CONNECTION_MANAGER - message received: ', msg)
-    //     if (typeof msg !== 'object') {
-    //       throw new Error('invalid message received from remote peer: ', msg)
-    //     }
-    //     if (msg.t === 'm') {
-    //       this.emit('receiveMessage', msg.m)
-    //     } else {
-    //       throw new Error('Invalid message type received from remote peer: ', msg)
-    //     }
-    //   } catch (error) {
-    //     console.log(
-    //       'CONNECTION_MANAGER - receive message - PARSE ERROR: ',
-    //       error
-    //     )
-    //   }
-    // }
-
+    }
   }, {
     key: "_removeNode",
     value: function _removeNode(peerConn) {
@@ -233,6 +213,7 @@ var ConnectionManager = /*#__PURE__*/function (_EventEmitter) {
 
       if (nodeAddress && this.nodes["delete"](nodeAddress)) {
         console.warn('CONNECTION_MANAGER - _removeNode - disconnect -> DELETED: ', nodeAddress);
+        this.emit('nodeDisconnected', nodeAddress);
 
         this._emitNodeUpdate();
       }
@@ -1029,6 +1010,16 @@ var PeerConnection = /*#__PURE__*/function (_Peer) {
         this.emit('receiveMessage', this.remoteNodeAddress, message.m);
       }
     }
+  }, {
+    key: "basicData",
+    get: function get() {
+      var remoteNodeAddress = this.remoteNodeAddress,
+          channelName = this.channelName;
+      return {
+        remoteNodeAddress: remoteNodeAddress,
+        channelName: channelName
+      };
+    }
   }]);
 
   return PeerConnection;
@@ -1198,10 +1189,17 @@ var TorrentWeb = /*#__PURE__*/function (_EventEmitter) {
       _this.emit('created', nodeAddress);
     });
 
-    _this.twNode.connectToTWNetwork();
+    _this.twNode.connectToTWNetwork(); // this.conn.on('nodeUpdate', (nodes) => {
+    //   this.emit('nodeUpdate', nodes)
+    // })
 
-    _this.conn.on('nodeUpdate', function (nodes) {
-      _this.emit('nodeUpdate', nodes);
+
+    _this.conn.on('nodeConnected', function (nodeAddress, nodeData) {
+      _this.emit('nodeConnected', nodeAddress, nodeData);
+    });
+
+    _this.conn.on('nodeDisconnected', function (nodeAddress) {
+      _this.emit('nodeDisconnected', nodeAddress);
     });
 
     _this.conn.on('receiveMessage', function (remoteNodeAddress, message) {
