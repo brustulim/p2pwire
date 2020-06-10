@@ -1,5 +1,5 @@
 <head>
-   <title>torrentweb - an anonymous and decentralized network</title>
+   <title>??? Name Here ??? - an anonymous and decentralized network</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <style>
       h1,
@@ -20,7 +20,7 @@
          flex: 50%;
          margin: 1rem;
          vertical-align: middle;
-         background-color:#798ca0;
+         background-color: #798ca0;
       }
    </style>
 </head>
@@ -38,6 +38,7 @@
          <div class="row">
             <div class="column">
                <div class="myAddress"></div>
+               <div class="torrent-graph1"></div>
             </div>
             <div class="column">
                <div class="torrent-graph"></div>
@@ -57,32 +58,35 @@
    </div>
    <script>
       var nodes = new Map()
+      var mapLinks = []
+      var myAddress = ''
 
       var torrentWeb = new TorrentWeb({ debugMode: true })
 
+      let graph1 = new window.P2PGraph('.torrent-graph1')
       let graph = new window.P2PGraph('.torrent-graph')
 
       torrentWeb.on('created', (nodeAddress) => {
          document.querySelector('.myAddress').innerHTML = '<h3>My address: <h2>' + nodeAddress + '</h2></h3>'
+         myAddress = nodeAddress
          log('Created - Node Address: ' + nodeAddress)
-         graph.add({
+         graph1.add({
             id: 'You',
             me: true,
             name: nodeAddress
          })
       })
 
-      // torrentWeb.on('nodeUpdate', (nodes) => showNodes(nodes))
       torrentWeb.on('nodeConnected', (nodeAddress, nodeData) => {
          nodes.set(nodeAddress, nodeData)
          showNodes(nodes)
 
-         graph.add({
+         graph1.add({
             id: nodeAddress,
             me: false,
             name: nodeAddress
          })
-         graph.connect('You', nodeAddress)
+         graph1.connect('You', nodeAddress)
 
       })
       torrentWeb.on('nodeDisconnected', (nodeAddress) => {
@@ -90,8 +94,46 @@
          nodes.delete(nodeAddress)
          showNodes(nodes)
 
-         graph.disconnect('You', nodeAddress)
-         graph.remove(nodeAddress)
+         graph1.disconnect('You', nodeAddress)
+         graph1.remove(nodeAddress)
+      })
+
+      torrentWeb.on('linksUpdate', (links) => {
+
+         // Add new Nodes
+         const flatPeers = links.flat()
+         flatPeers.map(it => {
+            if (!graph.hasPeer(it)) {
+               graph.add({
+                  id: it,
+                  me: it === myAddress,
+                  name: it
+               })
+            }
+         })
+
+         // remove disconnected links
+         mapLinks.map(it => {
+            if (!links.find(l => l.toString() === it.toString())) {
+               console.log('links não tem:', { it, links })
+               graph.disconnect(it[0], it[1])
+               var index = mapLinks.indexOf(it);
+               mapLinks.splice(index, 1);
+
+            }
+         })
+
+         // add new links
+         links.map(it => {
+            if (!mapLinks.find(l => l.toString() === it.toString())) {
+               graph.connect(it[0], it[1])
+               mapLinks.push(it)
+            }
+         })
+
+
+
+
       })
 
       torrentWeb.on('message', (remoteNodeAddress, message) => {
@@ -121,9 +163,9 @@
             tableRows += `
           <tr>
           <th scope="row">${addr}</th>
+          <td><a href="javascript:void(0);" onclick="sendMessage('${addr}');"> ping </a></td>
           <td>${details.channelName}</td>
           <td>${Date.now().toString()}</td>
-          <td><a href="javascript:void(0);" onclick="sendMessage('${addr}');"> send ping </a></td>
           </tr>`
          })
 
