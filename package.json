@@ -5,7 +5,9 @@
   "main": "index.html",
   "scripts": {
     "test": "standard",
-    "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
+    "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false | uglifyify > p2pwire.min.js",
+    "build-mini": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
+    "terseia": "terser --compress --mangle -- torrentweb.min.js > p2pwire.min.js",
     "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js",
     "node-start_old": "nodemon --exec babel-node ./console/client.js",
     "node-start": "node --exec babel-node ./console/client.js"
@@ -54,7 +56,9 @@
     "chrome-remote-interface": "^0.28.2",
     "eslint-plugin-html": "^6.0.2",
     "nodemon": "^2.0.4",
-    "standard": "*"
+    "standard": "*",
+    "terser": "^4.7.0",
+    "uglifyify": "^5.0.2"
   },
   "browserify": {
     "transform": [
