@@ -1,14 +1,14 @@
 {
   "name": "torrentweb",
   "version": "1.0.0",
-  "description": "A webrowser anonym and decentralized network",
+  "description": "A webrowser anonym and distributed network",
   "main": "index.html",
   "scripts": {
     "test": "standard",
-    "build": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false | uglifyify > p2pwire.min.js",
-    "build-mini": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > torrentweb.min.js",
-    "terseia": "terser --compress --mangle -- torrentweb.min.js > p2pwire.min.js",
-    "build-debug": "browserify --standalone TorrentWeb ./lib/torrentweb.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o torrentweb.debug.js",
+    "build": "browserify --standalone P2PWire ./lib/p2pWire.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false | uglifyify > p2pwire.min.js",
+    "build-mini": "browserify --standalone P2PWire ./lib/p2pWire.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > p2pwire.tmp.min.js",
+    "terseia": "terser --compress --mangle -- p2pwire.tmp.min.js > p2pwire.min.js",
+    "build-debug": "browserify --standalone P2PWire ./lib/p2pWire.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o p2pwire.debug.js",
     "node-start_old": "nodemon --exec babel-node ./console/client.js",
     "node-start": "node --exec babel-node ./console/client.js"
   },
