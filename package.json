@@ -24,10 +24,7 @@
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "build": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > p2pwire.tmp.min.js",
-    "terser": "terser --compress --mangle -- p2pwire.tmp.min.js > p2pwire.min.js",
-    "build-mini": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false | terser --compress --mangle > p2pwire.min.js",
-    "build-mini2": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --mangle > p2pwire.min.js",
+    "build": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --mangle > p2pwire.min.js",
     "build-debug": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o p2pwire.debug.js"
   },
   "dependencies": {
