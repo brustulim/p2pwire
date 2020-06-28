@@ -1,5 +1,8 @@
 # TorrentWeb
 
+# STALE of first version with console and html tests. 
+Stale created before start clean, rename and organize the repository
+
 ## WIP - An anonymous and decentralized network running directly in your browser 
 YES! no installation, no plugins, no manual operations... just enter an address in your browser and navaigate!
 
