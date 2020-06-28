@@ -1,5 +1,5 @@
 <head>
-   <title>??? Name Here ??? - an anonymous and decentralized network</title>
+   <title>p2pWire - an anonymous and distributed network</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <style>
       h1,
@@ -27,12 +27,12 @@
 </head>
 
 <body>
-   <script src="./torrentweb.debug.js"></script>
-   <!-- <script src="./p2pwire.min.js"></script> -->
+   <!-- <script src="./p2pwire.debug.js"></script> -->
+   <script src="./p2pwire.min.js"></script>
    <script type="text/javascript" src="./p2p-graph.min.js"></script>
 
    <div class="container">
-      <h2>Welcome to the TorrentWeb network</h2>
+      <h2>Welcome to the p2pWire network</h2>
       <p align='right'>I know a guy, who knows a guy...</p>
 
       <div class="well">
@@ -62,7 +62,7 @@
       var mapLinks = []
       var myAddress = ''
 
-      var torrentWeb = new TorrentWeb({ debugMode: true })
+      var torrentWeb = new P2PWire({ debugMode: true })
 
       let graph1 = new window.P2PGraph('.torrent-graph1')
       let graph = new window.P2PGraph('.torrent-graph')
