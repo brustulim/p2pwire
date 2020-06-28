@@ -1,15 +1,15 @@
 {
   "name": "torrentweb",
-  "version": "1.0.0",
-  "description": "A webrowser anonym and distributed network",
-  "main": "index.js",
-  "scripts": {
-    "test": "standard",
-    "build": "browserify --standalone P2PWire ./lib/p2pWire.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > p2pwire.tmp.min.js",
-    "terseia": "terser --compress --mangle -- p2pwire.tmp.min.js > p2pwire.min.js",
-    "build-debug": "browserify --standalone P2PWire ./lib/p2pWire.js -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o p2pwire.debug.js",
-    "node-start_old": "nodemon --exec babel-node ./console/client.js",
-    "node-start": "node --exec babel-node ./console/client.js"
+  "version": "0.1.10",
+  "description": "A browser based anonym and distributed network",
+  "author": {
+    "name": "Herminio Brustulim", 
+    "email": "brustulim@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/brustulim/p2pwire#readme",
+  "bugs": {
+    "url": "https://github.com/brustulim/p2pwire/issues"
   },
   "repository": {
     "type": "git",
@@ -21,16 +21,20 @@
     "p2p",
     "crypto"
   ],
-  "author": "Herminio Brustulim",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/brustulim/p2pwire/issues"
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "build": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false > p2pwire.tmp.min.js",
+    "terser": "terser --compress --mangle -- p2pwire.tmp.min.js > p2pwire.min.js",
+    "build-mini": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | minify --mangle=false | terser --compress --mangle > p2pwire.min.js",
+    "build-mini2": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --mangle > p2pwire.min.js",
+    "build-debug": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o p2pwire.debug.js"
   },
-  "homepage": "https://github.com/brustulim/p2pwire#readme",
   "dependencies": {
     "bittorrent-tracker": "^9.15.0",
     "bs58check": "^2.1.2",
     "lodash": "^4.17.15",
+    "re-emitter": "^1.1.4",
     "simple-peer": "^9.7.2",
     "tweetnacl": "^1.0.3"
   },
@@ -48,8 +52,7 @@
     "browserify": "^16.5.1",
     "nodemon": "^2.0.4",
     "standard": "*",
-    "terser": "^4.7.0",
-    "uglifyify": "^5.0.2"
+    "terser": "^4.7.0"
   },
   "browserify": {
     "transform": [
