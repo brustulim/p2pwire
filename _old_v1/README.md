@@ -108,5 +108,5 @@ Modelo dos dados trocados entre os nodes:
 
 ## Used packages - thanks
 Some are not entirely used, but some parts, ideas, study material, etc.
-- https://github.com/thoughtram/es6-babel-browserify-boilerplate
-
+- webtorrent
+- 
