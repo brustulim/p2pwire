@@ -19,7 +19,7 @@ The p2pWire library create a overlay network above the internet through WebRTC. 
 There are 3 ways to install p2pWire:
 
 #### Local file in your project:
-Download the file [p2pwire.min.js](https://github.com/brustulim/torrentweb/blob/master/p2pwire.min.js), add it to your project folder and add a script tag in your html pointing to p2pwire:
+Download the file [p2pwire.min.js](https://github.com/brustulim/p2pwire/blob/master/p2pwire.min.js), add it to your project folder and add a script tag in your html pointing to p2pwire:
 ```html
 <script src="p2pwire.min.js"></script>
 ```
