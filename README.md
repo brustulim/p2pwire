@@ -37,7 +37,7 @@ npm install p2pwire --save
 
 
 # Development control
-As a WIP progress, there is a lot of things to be implemented, refactored, changed, defined and even "discovered". Then this part of read.me will be dedicated to keep the ideas and next steps of development aboveboard.
+As a WIP, there is a lot of things to be implemented, refactored, changed, defined and even "discovered". Then this part of read.me will be dedicated to keep the ideas and next steps of development aboveboard.
 
 ### Definition of resources in p2pwire:
 Resources are any service or content that can be shared or disponibilized through the p2pwire network, like:
@@ -57,7 +57,7 @@ Resources are any service or content that can be shared or disponibilized throug
 - Allow resources to be hosted anonymously
 
 ## Next Steps:
-- [ ] Separate library from htm example and post the p2pWire lib to NPM and minimized version to some CDN
+- [X] Separate library from htm example and post the p2pWire lib to NPM and minimized version to some CDN
 - [ ] Create a log util that show message in the console and dispatch events to debug as html in the browsers that have no console options like smart tvs and amazon echo show
 - [ ] Take a picture with many devices connected to p2pWire: laptop, android smartphone, android boxTv, amazon echo show, raspberry Pi, samsung smart TV (anything more?)
 - [ ] Create an windows/mac/linux service that keeps p2pWire running fulltime
