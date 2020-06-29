@@ -1,6 +1,6 @@
 {
   "name": "p2pwire",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "A browser based anonym and distributed network",
   "author": {
     "name": "Herminio Brustulim", 
@@ -24,7 +24,7 @@
   "main": "index.js",
   "scripts": {
     "test": "standard",
-    "build": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --mangle > p2pwire.min.js",
+    "build": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --comments false --mangle > p2pwire.min.js",
     "build-debug": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] -o p2pwire.debug.js"
   },
   "dependencies": {
