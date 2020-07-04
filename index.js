@@ -1,45 +1,36 @@
 "use strict";
-import { EventEmitter } from "events";
-import reemit from "re-emitter";
-import Crypto from "./lib/crypto";
-import ConnectionManager from "./lib/connectionManager";
-import P2PWireNode from "./lib/p2pWireNode";
+const { EventEmitter } = require("events");
+const reemit = require("re-emitter");
+const Crypto = require("./lib/crypto");
+const Store = require("./lib/store");
+const ConnectionManager = require("./lib/connectionManager");
+const P2PWireNode = require("./lib/p2pWireNode");
 
 class P2PWire extends EventEmitter {
   constructor(opts = {}) {
     super();
 
-    this.conn = new ConnectionManager(this);
+    this.wrtc = opts.wrtc;
+    this.conn = new ConnectionManager();
     this._registerConnEvents();
+
     this.nodeAddress = "NA";
     this.nodeCredentials =
       validateNodeCredentials(opts.nodeCredentials) || Crypto.createKeyPair();
+
     this.node = new P2PWireNode({
       tw: this,
       nodeCredentials: this.nodeCredentials,
+      wrtc: this.wrtc
     });
 
     this.node.on("created", (nodeAddress) => {
-      this.nodeAddress = nodeAddress;
+      Store.nodeAddress = this.nodeAddress = nodeAddress;
       this.emit("created", nodeAddress);
     });
 
     this.node.connectToTWNetwork();
-
-    this.conn.on("receiveMessage", (remoteNodeAddress, message) => {
-      this.emit("message", remoteNodeAddress, message);
-    });
-    // this.conn.on("nodeConnected", (nodeAddress, nodeData) => {
-    //   this.emit("nodeConnected", nodeAddress, nodeData);
-    // });
-
-    // this.conn.on("nodeDisconnected", (nodeAddress) => {
-    //   this.emit("nodeDisconnected", nodeAddress);
-    // });
-
-    // this.conn.on("linksUpdate", (links) => {
-    //   this.emit("linksUpdate", links);
-    // });
+ 
   }
 
   sendMessage(nodeAddress, message) {
