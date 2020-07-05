@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>p2pWire - Simple example of use</title>
+    <!-- use from cdn -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/p2pwire@latest/p2pwire.min.js"></script> -->
+    <!-- use from local p2pWire js  -->
+    <script src="../p2pwire.min.js"></script>
+
+    <script>
+      var p2pWire = new P2PWire();
+
+      p2pWire.on("created", (nodeAddress) => {
+        document.querySelector(".myAddress").innerHTML =
+          "<h2>My address: " + nodeAddress + "</h2>";
+      });
+
+      p2pWire.on("nodeConnected", (nodeAddress, nodeData) => {
+        console.log("Connected to node: ", { nodeAddress, nodeData });
+      });
+
+      p2pWire.on("nodeDisconnected", (nodeAddress) => {
+        console.log("Disconnected from node: ", { nodeAddress });
+      });
+
+      p2pWire.on("linksUpdate", (links) => {
+        console.log("Received an updated links table: ", links);
+      });
+
+      p2pWire.on("receiveMessage", (remoteNodeAddress, message) => {
+        let newParagraph = document.createElement("p");
+        newParagraph.innerHTML =
+          "Received a message from - <B>" +
+          remoteNodeAddress +
+          "</B>: <br>" +
+          JSON.stringify(message, null, 2);
+        document.querySelector(".messages").appendChild(newParagraph);
+      });
+
+      p2pWire.on("linksUpdate", (links) => {
+        const linksTable = links.map(
+          (link) => link[0] + " -> " + link[1] + "<br>"
+        );
+        document.querySelector(".linksTable").innerHTML = linksTable;
+      });
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <h2>Welcome to the p2pWire network</h2>
+      <div class="myAddress"></div>
+      <br />
+      <h2>Links</h2>
+      <div class="linksTable"></div>
+      <br />
+      <br />
+      <h2>Messages</h2>
+      <div class="messages"></div>
+    </div>
+  </body>
+</html>

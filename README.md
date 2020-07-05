@@ -35,6 +35,144 @@ Just add a script tag pointing to a CDN:
 npm install p2pwire --save
 ```
 
+## How to use 
+
+#### html/js:
+As described above, you can import from a CDN, download the p2pwire.min.js or build it locally from the source code. 
+```html
+<html>
+  <head>
+    <title>p2pWire - Simple example of use</title>
+    <!-- use from cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/p2pwire@latest/p2pwire.min.js"></script>
+    <!-- use from local p2pWire.min.js  -->
+    <!-- <script src="../p2pwire.min.js"></script> -->
+
+    <script>
+      var p2pWire = new P2PWire()
+
+      p2pWire.on('created', nodeAddress => {
+        document.querySelector('.myAddress').innerHTML =
+          '<h2>My address: ' + nodeAddress + '</h2>'
+      })
+
+      p2pWire.on('nodeConnected', (nodeAddress, nodeData) => {
+        console.log('Connected to node: ', { nodeAddress, nodeData })
+
+        // send a message to remote node
+        const dt = new Date()
+        const message = {
+          title: 'Hello from ' + p2pwire.nodeAddress,
+          from: p2pwire.nodeAddress,
+          dt
+        }
+        p2pwire.sendMessage(nodeAddress, message)
+      })
+
+      p2pWire.on('nodeDisconnected', nodeAddress => {
+        console.log('Disconnected from node: ', { nodeAddress })
+      })
+
+      p2pWire.on('receiveMessage', (remoteNodeAddress, message) => {
+        let newParagraph = document.createElement('p')
+        newParagraph.innerHTML =
+          'Received a message from - <B>' +
+          remoteNodeAddress +
+          '</B>: <br>' +
+          JSON.stringify(message, null, 2)
+        document.querySelector('.messages').appendChild(newParagraph)
+      })
+
+      p2pWire.on('linksUpdate', links => {
+        const linksTable = links.map(
+          link => link[0] + ' -> ' + link[1] + '<br>'
+        )
+        document.querySelector('.linksTable').innerHTML = linksTable
+      })
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <h2>Welcome to the p2pWire network</h2>
+      <div class="myAddress"></div>
+      <br />
+      <h2>Links</h2>
+      <div class="linksTable"></div>
+      <br />
+      <br />
+      <h2>Messages</h2>
+      <div class="messages"></div>
+    </div>
+  </body>
+</html>
+```
+> A more complex example/playground can be checked in [examples folder](https://github.com/brustulim/p2pwire/blob/master/examples/index.js)
+
+#### node js:
+To use p2pWire in nodejs you need to install the 'wrtc' library and pass as a parameter to P2PWire constructor.
+> The WebRTC was developed to be used in browsers, but the package [wrtc](https://www.npmjs.com/package/wrtc) brings this functionality for nodejs applications.
+The package was not added directly into p2pWire projects to keep the package as smaller as possible and because it is needed only outside of the web browser.
+For more details check the project page: https://www.npmjs.com/package/wrtc 
+
+first, install dependencies:
+```bash
+npm install p2pwire --save
+npm install wrtc --save
+```
+node js example:
+```javascript
+const wrtc = require('wrtc')
+// use from npm
+const P2PWire = require('p2pwire')
+// use from source code
+// const P2PWire = require("../p2pwire/index.js")
+
+startNetwork()
+
+function startNetwork () {
+  var p2pwire = new P2PWire({
+    wrtc
+  })
+
+  p2pwire.on('created', nodeAddress => {
+    console.log(`Created - my nodeAddress: `, nodeAddress)
+  })
+
+  p2pwire.on('nodeConnected', (nodeAddress, nodeData) => {
+    console.log(`Connected to node: `, {
+      nodeAddress,
+      nodeData
+    })
+
+    // send a message to remote node
+    const dt = new Date()
+    const message = {
+      title: 'Hello from ' + p2pwire.nodeAddress,
+      from: p2pwire.nodeAddress,
+      dt
+    }
+    p2pwire.sendMessage(nodeAddress, message)
+  })
+
+  p2pwire.on('nodeDisconnected', nodeAddress => {
+    console.log(`Disconnected from node: `, {
+      nodeAddress
+    })
+  })
+
+  p2pwire.on('linksUpdate', links => {
+    console.log(`Links update received: `, {
+      links
+    })
+  })
+
+  p2pwire.on('receiveMessage', (remoteNodeAddress, message) => {
+    console.log('Received a message from: ', remoteNodeAddress)
+    console.log('Message: ', JSON.stringify(message, null, 2))
+  })
+}
+```
 
 # Development control
 As a WIP, there is a lot of things to be implemented, refactored, changed, defined and even "discovered". Then this part of read.me will be dedicated to keep the ideas and next steps of development aboveboard.

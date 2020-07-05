@@ -1,6 +1,6 @@
 {
   "name": "p2pwire",
-  "version": "0.1.16",
+  "version": "0.1.15",
   "description": "A browser based anonym and distributed network",
   "author": {
     "name": "Herminio Brustulim",
@@ -24,6 +24,7 @@
   "main": "index.js",
   "scripts": {
     "test": "standard",
+    "build-babel": "browserify --standalone P2PWire . -t [ babelify --presets [ @babel/preset-env @babel/preset-react ] ] | terser --compress --comments false --mangle > p2pwire.min.js",
     "build": "browserify --standalone P2PWire . -t | terser --compress --comments false --mangle > p2pwire.min.js",
     "build-debug": "browserify --standalone P2PWire . -t -o p2pwire.debug.js"
   },
@@ -36,9 +37,25 @@
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.1",
+    "@babel/preset-react": "^7.10.1",
+    "babel-eslint": "^10.1.0",
+    "babel-minify": "^0.5.1",
+    "babel-plugin-lodash": "^3.3.4",
+    "babelify": "^10.0.0",
     "browserify": "^16.5.1",
+    "nodemon": "^2.0.4",
     "standard": "*",
     "terser": "^4.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   },
   "standard": {
     "plugins": [
