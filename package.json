@@ -1,6 +1,6 @@
 {
   "name": "p2pwire",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "A browser based anonym and distributed network",
   "author": {
     "name": "Herminio Brustulim",
@@ -15,12 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/brustulim/p2pwire.git"
   },
-  "keywords": [
-    "decentralization",
-    "javascript",
-    "p2p",
-    "crypto"
-  ],
+  "keywords": ["decentralization", "javascript", "p2p", "crypto"],
   "main": "index.js",
   "scripts": {
     "test": "standard",
@@ -36,14 +31,14 @@
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "browserify": "^16.5.1",
+    "eslint-plugin-html": "^6.0.2",
     "standard": "*",
     "terser": "^4.7.0"
   },
   "standard": {
-    "plugins": [
-      "html"
-    ],
+    "plugins": ["html"],
     "parser": "babel-eslint"
   }
 }
