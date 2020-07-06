@@ -1,7 +1,7 @@
 {
   "name": "p2pwire",
-  "version": "0.1.17",
-  "description": "A browser based anonym and distributed network",
+  "version": "0.1.18",
+  "description": "A distributed and anonymous network running directly in your browser (and nodejs)",
   "author": {
     "name": "Herminio Brustulim",
     "email": "brustulim@gmail.com"

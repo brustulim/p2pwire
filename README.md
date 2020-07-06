@@ -6,6 +6,8 @@
 
 YES! no installation, no plugins, no manual operations... just enter an address in your browser and navigate!
 
+Click here to view an example: [https://brustulim.github.io/p2pwire-playground](https://brustulim.github.io/p2pwire-playground/)
+
 ## Important!
 
 This is a WIP project, many parts will be changed and some are just ideas at this moment. Do not use this library in a production or serious project/product.
@@ -37,7 +39,9 @@ Download the file [p2pwire.min.js](https://github.com/brustulim/p2pwire/blob/mas
 
 #### Hosted in a CDN:
 
-Just add a script tag pointing to a CDN:
+[![](https://data.jsdelivr.com/v1/package/npm/p2pwire/badge)](https://www.jsdelivr.com/package/npm/p2pwire)
+
+Just add a script tag pointing to a CDN :
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/p2pwire@latest/p2pwire.min.js"></script>
