@@ -128,7 +128,7 @@ As described above, you can import from a CDN, download the p2pwire.min.js or bu
 </html>
 ```
 
-> A more complex example/playground can be checked in [examples folder](https://github.com/brustulim/p2pwire/blob/master/examples/index.html)
+> A more complete example/playground can be checked in [p2pWire playground repository](https://github.com/brustulim/p2pwire-playground)
 
 #### node js:
 
