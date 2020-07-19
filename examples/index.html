@@ -9,7 +9,7 @@
     <script>
       var p2pwire = new P2PWire()
 
-      p2pwire.on('created', nodeAddress => {
+      p2pwire.on('ready', nodeAddress => {
         document.querySelector('.myAddress').innerHTML =
           '<h2>My address: ' + nodeAddress + '</h2>'
       })
@@ -41,6 +41,19 @@
         document.querySelector('.messages').appendChild(newParagraph)
       })
 
+      p2pwire.on('nodesListUpdated', nodes => {
+        const nodesTable = nodes.map(
+          node =>
+            node.remoteNodeAddress +
+            ' -> ' +
+            node.channelName +
+            ' -> ' +
+            node.remoteAddress +
+            '<br />'
+        )
+        document.querySelector('.nodesTable').innerHTML = nodesTable
+      })
+
       p2pwire.on('linksUpdate', links => {
         const linksTable = links.map(
           link => link[0] + ' -> ' + link[1] + '<br>'
@@ -54,6 +67,9 @@
     <div>
       <h2>Welcome to the p2pWire network</h2>
       <div class="myAddress"></div>
+      <br />
+      <h2>Direct Nodes Connections</h2>
+      <div class="nodesTable"></div>
       <br />
       <h2>Links</h2>
       <div class="linksTable"></div>
