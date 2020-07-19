@@ -6,7 +6,7 @@
 
 YES! no installation, no plugins, no manual operations... just enter an address in your browser and navigate!
 
-Click here to view an example: [https://brustulim.github.io/p2pwire-playground](https://brustulim.github.io/p2pwire-playground/)
+Click here to view a running example: [https://brustulim.github.io/p2pwire-playground](https://brustulim.github.io/p2pwire-playground/)
 
 ## Important!
 
@@ -71,7 +71,7 @@ As described above, you can import from a CDN, download the p2pwire.min.js or bu
     <script>
       var p2pwire = new P2PWire();
 
-      p2pwire.on("created", (nodeAddress) => {
+      p2pwire.on("ready", (nodeAddress) => {
         document.querySelector(".myAddress").innerHTML =
           "<h2>My address: " + nodeAddress + "</h2>";
       });
@@ -128,8 +128,6 @@ As described above, you can import from a CDN, download the p2pwire.min.js or bu
 </html>
 ```
 
-> A more complete example/playground can be checked in [p2pWire playground repository](https://github.com/brustulim/p2pwire-playground)
-
 #### node js:
 
 To use p2pWire in nodejs you must install the 'wrtc' library and inform it as a parameter to P2PWire constructor.
@@ -161,7 +159,7 @@ function startNetwork() {
     wrtc,
   });
 
-  p2pwire.on("created", (nodeAddress) => {
+  p2pwire.on("ready", (nodeAddress) => {
     console.log(`Created - my nodeAddress: `, nodeAddress);
   });
 
@@ -200,6 +198,12 @@ function startNetwork() {
 }
 ```
 
+### More examples:
+
+Other examples like a nodeJS console application and other html examples could be checked in:
+
+[p2pWire playground repository](https://github.com/brustulim/p2pwire-playground)
+
 # Development control
 
 As a WIP, there is a lot of things to be implemented, refactored, changed, defined and even "discovered". Then this part of read.me will be dedicated to keep the ideas and next steps of development aboveboard.
@@ -227,6 +231,7 @@ Resources are any service or content that can be shared or disponibilized throug
 ## Next Steps:
 
 - [x] Separate library from the html example and post the p2pWire lib to NPM and minimized version to a CDN
+- [x] Introduce a Event Bus to simplify the events dispatch and listeners on the application
 - [ ] Create a log util that show message in the console and dispatch events to debug as html in the browsers that have no console options like smart tvs and amazon echo show
 - [ ] Take a picture with many devices connected to p2pWire: laptop, android smartphone, android boxTv, amazon echo show, raspberry Pi, samsung smart TV (anything more?)
 - [ ] Create an windows/mac/linux service that keeps p2pWire running fulltime

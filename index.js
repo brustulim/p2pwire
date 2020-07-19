@@ -1,6 +1,8 @@
 'use strict'
 const { EventEmitter } = require('events')
 const reemit = require('re-emitter')
+const EventBus = require('./lib/eventBus')
+const LinksShareManager = require('./lib/linksShareManager')
 const Crypto = require('./lib/crypto')
 const Store = require('./lib/store')
 const ConnectionManager = require('./lib/connectionManager')
@@ -11,8 +13,9 @@ class P2PWire extends EventEmitter {
     super()
 
     this.wrtc = opts.wrtc
+    this.LinksShareManager = LinksShareManager
     this.conn = new ConnectionManager()
-    this._registerConnEvents()
+    this._registerEvents()
 
     this.nodeAddress = 'NA'
     this.nodeCredentials =
@@ -24,9 +27,8 @@ class P2PWire extends EventEmitter {
       wrtc: this.wrtc
     })
 
-    this.node.on('created', nodeAddress => {
+    EventBus.on('ready', nodeAddress => {
       Store.nodeAddress = this.nodeAddress = nodeAddress
-      this.emit('created', nodeAddress)
     })
 
     this.node.connectToTWNetwork()
@@ -36,11 +38,13 @@ class P2PWire extends EventEmitter {
     this.conn.sendMessage(nodeAddress, message)
   }
 
-  _registerConnEvents () {
-    reemit(this.conn, this, [
+  _registerEvents () {
+    reemit(EventBus, this, [
+      'ready',
+      'receiveMessage',
       'nodeConnected',
       'nodeDisconnected',
-      'receiveMessage',
+      'nodesListUpdated',
       'linksUpdate'
     ])
   }
