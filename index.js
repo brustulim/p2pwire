@@ -12,6 +12,9 @@ class P2PWire extends EventEmitter {
   constructor (opts = {}) {
     super()
 
+    Store.consoleLogLevel = opts.consoleLogLevel || 'none'
+    Store.eventLogLevel = opts.eventLogLevel || 'none'
+
     this.wrtc = opts.wrtc
     this.LinksShareManager = LinksShareManager
     this.conn = new ConnectionManager()
