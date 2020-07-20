@@ -1,6 +1,6 @@
 {
   "name": "p2pwire",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "A distributed and anonymous network running directly in your browser (and nodejs)",
   "author": {
     "name": "Herminio Brustulim",
