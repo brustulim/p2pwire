@@ -71,7 +71,7 @@ As described above, you can import from a CDN, download the p2pwire.min.js or bu
     <script>
       var p2pwire = new P2PWire();
 
-      p2pwire.on("ready", (nodeAddress) => {
+      p2pwire.on("created", (nodeAddress) => {
         document.querySelector(".myAddress").innerHTML =
           "<h2>My address: " + nodeAddress + "</h2>";
       });
@@ -159,7 +159,7 @@ function startNetwork() {
     wrtc,
   });
 
-  p2pwire.on("ready", (nodeAddress) => {
+  p2pwire.on("created", (nodeAddress) => {
     console.log(`Created - my nodeAddress: `, nodeAddress);
   });
 
@@ -232,7 +232,10 @@ Resources are any service or content that can be shared or disponibilized throug
 
 - [x] Separate library from the html example and post the p2pWire lib to NPM and minimized version to a CDN
 - [x] Introduce a Event Bus to simplify the events dispatch and listeners on the application
-- [ ] Create a log util that show message in the console and dispatch events to debug as html in the browsers that have no console options like smart tvs and amazon echo show
+- [x] Create a log util that show message in the console and dispatch events to debug as html in the browsers that have no console options like smart tvs and amazon echo show
+- [ ] Introduce resources sharing. get items directly or get a descriptor with a list of resources.
+- [ ] Introduce media stream.
+- [ ] Introduce public an private keys cryptography to all packages.
 - [ ] Take a picture with many devices connected to p2pWire: laptop, android smartphone, android boxTv, amazon echo show, raspberry Pi, samsung smart TV (anything more?)
 - [ ] Create an windows/mac/linux service that keeps p2pWire running fulltime
 - [ ] Create an android service that keeps p2pWire running fulltime

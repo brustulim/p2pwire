@@ -18,22 +18,24 @@ class P2PWire extends EventEmitter {
     this.wrtc = opts.wrtc
     this.LinksShareManager = LinksShareManager
     this.conn = new ConnectionManager()
-    this._registerEvents()
-
     this.nodeAddress = 'NA'
     this.nodeCredentials =
       validateNodeCredentials(opts.nodeCredentials) || Crypto.createKeyPair()
+
+    this._registerEvents()
+    this._initialize()
+  }
+
+  _initialize () {
+    EventBus.on('created', nodeAddress => {
+      Store.nodeAddress = this.nodeAddress = nodeAddress
+    })
 
     this.node = new P2PWireNode({
       tw: this,
       nodeCredentials: this.nodeCredentials,
       wrtc: this.wrtc
     })
-
-    EventBus.on('ready', nodeAddress => {
-      Store.nodeAddress = this.nodeAddress = nodeAddress
-    })
-
     this.node.connectToTWNetwork()
   }
 
@@ -43,6 +45,7 @@ class P2PWire extends EventEmitter {
 
   _registerEvents () {
     reemit(EventBus, this, [
+      'created',
       'ready',
       'receiveMessage',
       'nodeConnected',

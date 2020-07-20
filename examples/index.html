@@ -9,13 +9,15 @@
     <script>
       var p2pwire = new P2PWire()
 
-      p2pwire.on('ready', nodeAddress => {
+      p2pwire.on('created', nodeAddress => {
         document.querySelector('.myAddress').innerHTML =
           '<h2>My address: ' + nodeAddress + '</h2>'
       })
 
       p2pwire.on('nodeConnected', (nodeAddress, nodeData) => {
         console.log('Connected to node: ', { nodeAddress, nodeData })
+
+        document.querySelector('.searching').hidden = true
 
         // send a message to remote node
         const dt = new Date()
@@ -67,6 +69,11 @@
     <div>
       <h2>Welcome to the p2pWire network</h2>
       <div class="myAddress"></div>
+      <div class="searching">
+        Looking for other nodes to connect... (try to open this site on another
+        tab or device)
+      </div>
+
       <br />
       <h2>Direct Nodes Connections</h2>
       <div class="nodesTable"></div>
