@@ -8,6 +8,16 @@ const Store = require('./lib/store')
 const ConnectionManager = require('./lib/connectionManager')
 const P2PWireNode = require('./lib/p2pWireNode')
 
+/**
+ * p2pwire library.
+ *
+ * Connect to the p2pWire network and provide all the necessary tools to communicate.
+ *
+ * @param {Object} opts                          options object
+ * @param {number} opts.wrtc                     webrtc library (required to run in node.js)
+ * @param {string} opts.consoleLogLevel          define the level of logging to console. ['none', 'error','warning','info', 'debug']
+ * @param {string} opts.eventLogLevel            define the level of logging to be dispatched to event "log". ['none', 'error','warning','info', 'debug']
+ */
 class P2PWire extends EventEmitter {
   constructor (opts = {}) {
     super()
