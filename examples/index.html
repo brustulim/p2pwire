@@ -7,9 +7,10 @@
     <!-- <script src="../p2pwire.min.js"></script> -->
 
     <script>
-      var p2pwire = new P2PWire()
+      var p2pwire = new P2PWire({ consoleLogLevel: 'error' })
 
       p2pwire.on('created', nodeAddress => {
+        document.title = nodeAddress + ' - ' + document.title
         document.querySelector('.myAddress').innerHTML =
           '<h2>My address: ' + nodeAddress + '</h2>'
       })
