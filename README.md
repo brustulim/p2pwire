@@ -103,7 +103,7 @@ As described above, you can import from a CDN, download the p2pwire.min.js or bu
         document.querySelector(".messages").appendChild(newParagraph);
       });
 
-      p2pwire.on("linksUpdate", (links) => {
+      p2pwire.on("linksTableChanged", (links) => {
         const linksTable = links.map(
           (link) => link[0] + " -> " + link[1] + "<br>"
         );

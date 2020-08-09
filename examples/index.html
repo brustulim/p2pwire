@@ -2,9 +2,9 @@
   <head>
     <title>p2pWire - Simple example of use</title>
     <!-- use from cdn -->
-    <script src="https://cdn.jsdelivr.net/npm/p2pwire@latest/p2pwire.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/p2pwire@latest/p2pwire.min.js"></script> -->
     <!-- use from local p2pWire.min.js  -->
-    <!-- <script src="../p2pwire.min.js"></script> -->
+    <script src="../p2pwire.min.js"></script>
 
     <script>
       var p2pwire = new P2PWire({ consoleLogLevel: 'error' })
@@ -57,7 +57,7 @@
         document.querySelector('.nodesTable').innerHTML = nodesTable
       })
 
-      p2pwire.on('linksUpdate', links => {
+      p2pwire.on('linksTableChanged', links => {
         const linksTable = links.map(
           link => link[0] + ' -> ' + link[1] + '<br>'
         )

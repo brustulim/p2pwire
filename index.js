@@ -61,7 +61,8 @@ class P2PWire extends EventEmitter {
       'nodeConnected',
       'nodeDisconnected',
       'nodesListUpdated',
-      'linksUpdate'
+      'linksUpdate',
+      'linksTableChanged'
     ])
   }
 }
