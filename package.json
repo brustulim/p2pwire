@@ -1,6 +1,6 @@
 {
   "name": "p2pwire",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "description": "A distributed and anonymous network running directly in your browser (and nodejs)",
   "author": {
     "name": "Herminio Brustulim",
@@ -15,7 +15,14 @@
     "type": "git",
     "url": "git+https://github.com/brustulim/p2pwire.git"
   },
-  "keywords": ["decentralization", "javascript", "p2p", "p2pwire", "crypto"],
+  "keywords": [
+    "decentralization",
+    "javascript",
+    "p2p",
+    "p2pwire",
+    "crypto"
+  ],
+  "sourceType": "module",
   "main": "index.js",
   "scripts": {
     "test": "standard",
@@ -23,22 +30,25 @@
     "build-debug": "browserify --standalone P2PWire . -t -o p2pwire.debug.js"
   },
   "dependencies": {
-    "bittorrent-tracker": "^9.15.0",
-    "bs58check": "^2.1.2",
-    "lodash": "^4.17.15",
+    "bittorrent-tracker": "^9.19.0",
+    "bs58check": "^3.0.1",
+    "lodash": "^4.17.21",
     "re-emitter": "^1.1.4",
-    "simple-peer": "^9.7.2",
+    "simple-peer": "^9.11.1",
     "tweetnacl": "^1.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "browserify": "^16.5.1",
-    "eslint-plugin-html": "^6.0.2",
-    "standard": "*",
-    "terser": "^4.7.0"
+    "browserify": "^17.0.0",
+    "eslint-plugin-html": "^7.1.0",
+    "standard": "^17.1.0",
+    "terser": "^5.18.0",
+    "wrtc": "^0.4.7"
   },
   "standard": {
-    "plugins": ["html"],
+    "plugins": [
+      "html"
+    ],
     "parser": "babel-eslint"
   }
 }
